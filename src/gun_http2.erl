@@ -295,8 +295,9 @@ ignored_frame(State=#http2_state{http2_machine=HTTP2Machine0}) ->
 	end.
 
 %% @todo Use Reason.
-close(_, #http2_state{streams=Streams}) ->
-	close_streams(Streams).
+close(_, #http2_state{http2_machine=HTTP2Machine, streams=Streams}) ->
+	close_streams(Streams),
+	cow_http2_machine:close(HTTP2Machine).
 
 close_streams([]) ->
 	ok;
